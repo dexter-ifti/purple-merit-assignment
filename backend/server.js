@@ -1,11 +1,10 @@
-// server.js (refactored)
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
+const swaggerUi = require('swagger-ui-express');
+const swaggerFile = require('./swagger-output.json');
 
-// Export bcrypt to global for tests that reference it without importing
-// (keeps backward compatibility with existing test code)
 global.bcrypt = require('bcryptjs');
 
 const authRoutes = require('./routes/auth');
@@ -18,9 +17,11 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
+app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 app.get('/', (req, res) => {
   res.send('Server is running');
 })
+// API routes
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 
@@ -30,9 +31,6 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Something went wrong!' });
 });
 
-// If this file is run directly (node server.js), connect to DB and start the server.
-// When required (e.g. in tests), we only export the app to allow the test harness
-// to manage DB connections and server lifecycle.
 if (require.main === module) {
   mongoose.connect(process.env.MONGODB_URI)
     .then(() => {
