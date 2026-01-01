@@ -3,6 +3,7 @@ const User = require('../models/User');
 const { validateEmail, validatePassword } = require('../utils/validators');
 
 exports.getUsers = async (req, res) => {
+  // swagger.tags = ['User'];
   try {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
@@ -40,6 +41,7 @@ exports.getUsers = async (req, res) => {
 };
 
 exports.updateStatus = async (req, res) => {
+  // swagger.tags = ['User'];
   try {
     const { status } = req.body;
 
@@ -77,6 +79,7 @@ exports.updateStatus = async (req, res) => {
 };
 
 exports.updateProfile = async (req, res) => {
+  // swagger.tags = ['User'];
   try {
     const { fullName, email } = req.body;
 
@@ -125,6 +128,7 @@ exports.updateProfile = async (req, res) => {
 };
 
 exports.changePassword = async (req, res) => {
+  // swagger.tags = ['User'];
   try {
     const { currentPassword, newPassword } = req.body;
 
