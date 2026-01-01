@@ -6,7 +6,7 @@ const { validateEmail, validatePassword } = require('../utils/validators');
 exports.signup = async (req, res) => {
   try {
     const { email, password, fullName } = req.body;
-
+    // swagger.tags = ['Authentication'];
     // Validation
     if (!email || !password || !fullName) {
       return res.status(400).json({ error: 'All fields are required' });
@@ -67,6 +67,8 @@ exports.signup = async (req, res) => {
 };
 
 exports.login = async (req, res) => {
+
+  // swagger.tags = ['Authentication'];
   try {
     const { email, password } = req.body;
 
@@ -121,6 +123,7 @@ exports.login = async (req, res) => {
 };
 
 exports.getMe = async (req, res) => {
+  // swagger.tags = ['User'];
   try {
     const user = await User.findById(req.user.id).select('-password');
     if (!user) {
@@ -145,6 +148,7 @@ exports.getMe = async (req, res) => {
 };
 
 exports.logout = (req, res) => {
+  // swagger.tags = ['Authentication'];
   // Logout is handled client-side by removing token; keep endpoint for parity
   res.json({ message: 'Logout successful' });
 };
